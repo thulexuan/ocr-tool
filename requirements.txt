@@ -2,12 +2,9 @@ fastapi==0.108.0
 matplotlib==3.7.2
 numpy==1.24.3
 opencv_python==4.8.1.78
-Pillow==10.0.1
 Pillow==10.2.0
 skimage==0.0
-torch==2.1.0
 torch==2.1.2
-torchvision==0.15.2a0
 torchvision==0.16.2
 uvicorn==0.25.0
 vietocr==0.3.12
