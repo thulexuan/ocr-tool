@@ -144,10 +144,10 @@ def crop_and_save(original_image_path, bounding_boxes, output_folder):
         x_min, y_min, x_max, y_max = box_points
 
         # Find the bounding box coordinates
-        left = x_min - 5
-        upper = y_min - 5
-        right = x_max + 5
-        lower = y_max + 5
+        left = x_min 
+        upper = y_min 
+        right = x_max 
+        lower = y_max 
 
         # Crop the image using the bounding box
         cropped_image = original_image.crop((left, upper, right, lower))
@@ -200,6 +200,19 @@ def text_detection_by_craft(image_path):
 
     file_utils.saveResult(image_path, image[:,:,::-1], polys, dirname=result_folder)
 
+    # cho y3 == y4
+    height_of_words = []
+    for bbox in bboxes:
+        y_min = min(bbox[0][1], bbox[1][1])
+        y_max = max(bbox[2][1], bbox[3][1])
+        if bbox[2][1] != bbox[3][1]:
+            bbox[2][1] = y_max
+            bbox[3][1] = y_max
+        # tính chiều cao min nhất trong các từ
+        height_of_words.append(y_max - y_min)
+         
+    min_space_between_lines = min(height_of_words)
+    print(min_space_between_lines)       
     bboxes = sorted(bboxes, key=lambda x: x[-1][1])
     #print(bboxes)
 
@@ -211,7 +224,7 @@ def text_detection_by_craft(image_path):
     # Iterate through the sorted array
     for i in range(1, len(bboxes)):
         # Check if the difference is smaller than 10
-        if bboxes[i][-1][1] - current_subarray[0][-1][1] < 15:
+        if bboxes[i][-1][1] - current_subarray[0][-1][1] < min_space_between_lines + 10:
             current_subarray.append(bboxes[i])
         else:
             # If the difference is larger, start a new subarray
@@ -250,7 +263,19 @@ def text_detection_by_craft(image_path):
         # Create the output folder if it doesn't exist
     os.makedirs('./output_images', exist_ok=True)
 
-        # Call the function to crop and save
+    # delete existed images in folder
+    files = os.listdir('./output_images')
+    image_extensions=['.png', '.jpg', '.jpeg']
+
+    # Filter files to keep only images
+    image_files = [file for file in files if any(file.lower().endswith(ext) for ext in image_extensions)]
+
+    # Delete each image file
+    for image_file in image_files:
+        image_path_in_folder = os.path.join('./output_images', image_file)
+        os.remove(image_path_in_folder)
+
+    # Call the function to crop and save
     crop_and_save(image_path, crop_points, './output_images')
     
     print("elapsed time : {}s".format(time.time() - t))
@@ -290,23 +315,12 @@ async def read_image(image_path):
     text_detection_by_craft(image_path)
 
     recognized_text = process_images_in_folder('./output_images')
-    # delete images in folder
-    files = os.listdir('./output_images')
-    image_extensions=['.png', '.jpg', '.jpeg']
-
-    # Filter files to keep only images
-    image_files = [file for file in files if any(file.lower().endswith(ext) for ext in image_extensions)]
-
-    # Delete each image file
-    for image_file in image_files:
-        image_path = os.path.join('./output_images', image_file)
-        os.remove(image_path)
     
     return recognized_text
 
 def main():
     args = parse_arguments()
-    text_detection_by_craft('test/testvietocr.png')
+    text_detection_by_craft('test/test_ocr.png')
     recognized_text = process_images_in_folder('./output_images')
     print(recognized_text)
 
