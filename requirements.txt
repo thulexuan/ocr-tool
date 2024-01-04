@@ -3,3 +3,17 @@ torchvision
 opencv-python
 scikit-image
 scipy
+aiofiles
+click
+fastapi
+h11
+Jinja2
+MarkupSafe
+Pillow
+pydantic
+vietocr
+python-multipart
+six
+starlette
+typing-extensions
+uvicorn
