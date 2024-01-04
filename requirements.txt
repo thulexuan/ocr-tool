@@ -1,10 +1,30 @@
-fastapi==0.108.0
-matplotlib==3.7.2
-numpy==1.24.3
-opencv_python==4.8.1.78
-Pillow==10.2.0
-scikit-image
-torch==2.1.2
-torchvision==0.16.2
-uvicorn==0.25.0
+# fastapi==0.108.0
+# matplotlib==3.7.2
+# numpy==1.24.3
+# opencv_python==4.8.1.78
+# Pillow==10.2.0
+# scikit-image
+# torch==2.1.2
+# torchvision==0.16.2
+# uvicorn==0.25.0
+# vietocr==0.3.12
+
+aiofiles==0.6.0
+click==7.1.2
+fastapi==0.61.1
+h11==0.11.0
+Jinja2==2.11.2
+MarkupSafe==1.1.1
+Pillow==8.0.1
+pydantic==1.7
 vietocr==0.3.12
+python-multipart==0.0.5
+six==1.15.0
+starlette==0.13.6
+typing-extensions==3.7.4.3
+uvicorn==0.12.2
+torch
+torchvision
+opencv-python
+scikit-image
+scipy
